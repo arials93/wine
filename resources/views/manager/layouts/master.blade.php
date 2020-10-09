@@ -276,8 +276,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                             </a>
                                         </li>
                                         <li class="kt-menu__item 
-                                        @if (!(Str::between(url()->current(),'products','sub_categories') && Str::between(url()->current(),'products' ,'categories')))
-                                            kt-menu__item--active @endif" aria-haspopup="true">
+                                        " aria-haspopup="true">
                                             <a href="{{ route('manager.products.index') }}" class="kt-menu__link ">
                                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
                                                 <span class="kt-menu__link-text">Sản phẩm</span>
@@ -415,7 +414,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <h4 class="kt-menu__section-text">Đơn hàng - Thống kê</h4>
                                 <i class="kt-menu__section-icon flaticon-more-v2"></i>
                             </li>
-                            <li class="kt-menu__item  kt-menu__item--submenu 
+                            {{-- <li class="kt-menu__item  kt-menu__item--submenu 
                                 @if (Str::contains(url()->current(), 'products')) kt-menu__item--active kt-menu__item--open @endif"
                                 aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
                                     class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon">
@@ -463,7 +462,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>

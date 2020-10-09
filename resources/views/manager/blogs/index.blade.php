@@ -1,6 +1,6 @@
 @extends('manager.layouts.master')
 
-@section('title','Danh sách bài viếtasdasdas')
+@section('title','Danh sách bài viết')
 
 @section('breadcrumbs')
     @include('manager.layouts.components.breadcrumbs',[

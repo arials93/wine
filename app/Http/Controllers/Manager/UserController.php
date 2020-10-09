@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\User;
 
 class UserController extends Controller
 {
@@ -12,9 +13,52 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('manager.users.index');
+        $paginate = 1;
+        //Lọc user là quản trị (admin), chỉ dành cho super admin
+        if($request->admin)
+        {
+            //Lọc user theo tên, điện thoại và email
+           if($request->search)
+           {
+               $search = $request->search;
+               //Hiển thị user trừ bản thân
+               $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
+                            ->where('is_admin',1)
+                            ->where(function ($q) use ($search) {
+                                $q->where('name','LIKE','%'.$search.'%')
+                                ->orWhere('phone','LIKE','%'.$search.'%')
+                                ->orWhere('email', 'LIKE', '%'.$search.'%');
+                            })->paginate($paginate);
+           }
+           else
+                $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
+                            ->where('is_admin',1)
+                            ->paginate($paginate);
+        }
+        else
+        {
+            //Lọc user là khách hàng theo tên, điện thoại và email
+            if($request->search)
+           {
+               $search = $request->search;
+               $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
+                            ->where('is_admin',0)
+                            ->where(function ($q) use ($search) {
+                                $q->where('name','LIKE','%'.$search.'%')
+                                ->orWhere('phone','LIKE','%'.$search.'%')
+                                ->orWhere('email', 'LIKE', '%'.$search.'%');
+                            })->paginate($paginate);
+           }
+           //Lọc theo khách hàng
+            else
+                $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
+                            ->where('is_admin',0)
+                            ->paginate($paginate);
+        }
+        // $datas = User::where('id', '!=', auth()->user()->id)->paginate(10);
+        return view('manager.users.index', ['datas' => $datas]);
     }
 
     /**
@@ -80,6 +124,12 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Product::findOrFail($id);
+        // xóa hình cũ
+        if(Storage::disk('public')->exists($user->image)) {
+            Storage::disk('public')->delete($user->image);
+        }
+        $product->delete();
+        return back()->with('message','Đã xóa thành công');
     }
 }

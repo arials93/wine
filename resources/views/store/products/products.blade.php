@@ -90,7 +90,7 @@
 					<div class="row mt-5">
 						<div class="col text-center">
 							<div class="block-27">
-								{{ $products->appends(request()->query())->links('vendor.pagination.store-paginate') }} <!--Khi tìm kiếm vẫn giữ lại query cũ khi chuyển trang-->
+								{{ $products->links('vendor.pagination.store-paginate') }} <!--Khi tìm kiếm vẫn giữ lại query cũ khi chuyển trang-->
 							</div>
 						</div>
 					</div>
