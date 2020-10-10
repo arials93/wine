@@ -136,10 +136,11 @@
                     var total_item = Object.keys(response.data).length;
                     if(total_item) {
                         target.parents('.item-cart').remove();
-                        $('#total-price').html(response.total.toLocaleString() + ' đ')
                     } else {
                         $('#page-cart-content').html('<tr><td colspan="6">Giỏ hàng rỗng</td></tr>')
                     }
+
+                    $('#total-price').html(response.total.toLocaleString() + ' đ')
                 });
             });
         }
