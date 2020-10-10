@@ -132,4 +132,19 @@ class UserController extends Controller
         $product->delete();
         return back()->with('message','Đã xóa thành công');
     }
+
+    public function disable($id) {
+        
+        $user = User::onlyTrashed()->where('id', $id)->first();
+        if(!$user) {
+            $user = User::findOrFail($id);
+            $user->delete();
+        } else {
+            $user->restore();
+        }
+
+        $msg = $user->deleted_at ? 'kích hoạt' : 'hủy';
+
+        return back()->with('message',"Đã $msg tài khoản thành công");
+    }
 }

@@ -33,6 +33,17 @@ Route::namespace('Store')->name('store.')->group( function() {
     Route::view('contact', 'store.others.contact')->name('contact');
     Route::view('about', 'store.others.about')->name('about');
 
+    //Cart
+    Route::prefix('cart')->name('cart.')->group( function() {
+        Route::post('/','CartController@index')->name('index');
+        Route::prefix('ajax')->name('ajax.')->group(function() {
+            Route::get('/get','CartController@get_cart')->name('get');
+            Route::post('/add','CartController@add')->name('add');
+            Route::post('/update','CartController@update')->name('update');
+            Route::post('/delete','CartController@delete')->name('delete');
+        });
+    });
+
 });
 
 Route::prefix('admin')->namespace('Manager')->name('manager.')->group( function() {
@@ -60,6 +71,7 @@ Route::prefix('admin')->namespace('Manager')->name('manager.')->group( function(
     Route::resource('blogs','BlogController');
 
     //Users
+    Route::post('users/{id}/disable', "UserController@disable")->name("user.disable");
     Route::resource('users','UserController');
     
 } );

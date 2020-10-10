@@ -5,6 +5,7 @@
 	<base href="/store/">
 	<title>@yield('title')</title>
 	<meta charset="utf-8">
+	<meta name="csrf-token" content="{{ csrf_token() }}" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -82,36 +83,11 @@
 				<a href="#" class="btn-cart dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false">
 					<span class="flaticon-shopping-bag"></span>
-					<div class="d-flex justify-content-center align-items-center"><small>3</small></div>
+					<div class="d-flex justify-content-center align-items-center"><small id="show-cart-quantity">0</small></div>
 				</a>
-				<div class="dropdown-menu dropdown-menu-right">
-					<div class="dropdown-item d-flex align-items-start" href="#">
-						<div class="img" style="background-image: url(images/prod-1.jpg);"></div>
-						<div class="text pl-3">
-							<h4>Bacardi 151</h4>
-							<p class="mb-0"><a href="#" class="price">$25.99</a><span class="quantity ml-3">Quantity:
-									01</span></p>
-						</div>
-					</div>
-					<div class="dropdown-item d-flex align-items-start" href="#">
-						<div class="img" style="background-image: url(images/prod-2.jpg);"></div>
-						<div class="text pl-3">
-							<h4>Jim Beam Kentucky Straight</h4>
-							<p class="mb-0"><a href="#" class="price">$30.89</a><span class="quantity ml-3">Quantity:
-									02</span></p>
-						</div>
-					</div>
-					<div class="dropdown-item d-flex align-items-start" href="#">
-						<div class="img" style="background-image: url(images/prod-3.jpg);"></div>
-						<div class="text pl-3">
-							<h4>Citadelle</h4>
-							<p class="mb-0"><a href="#" class="price">$22.50</a><span class="quantity ml-3">Quantity:
-									01</span></p>
-						</div>
-					</div>
-					<a class="dropdown-item text-center btn-link d-block w-100" href="{{ route('store.cart') }}">
-						View All
-						<span class="ion-ios-arrow-round-forward"></span>
+				<div class="dropdown-menu dropdown-menu-right" id="show-cart">
+					<a class="dropdown-item text-center btn-link d-block w-100">
+						Giỏ hàng trống
 					</a>
 				</div>
 			</div>
@@ -273,6 +249,80 @@
 	<script src="js/jquery.animateNumber.min.js"></script>
 	<script src="js/scrollax.min.js"></script>
 	<script src="js/main.js"></script>
+
+	<script>
+		var add_cart_url = "{{ route('store.cart.ajax.add') }}";
+		var get_cart_url = "{{ route('store.cart.ajax.get') }}";
+		var cart_index_url = "{{ route('store.cart') }}";
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			}
+		});
+
+		$( document ).ready(function() {
+			// thêm sản phẩm vào gió hàng khi bấm vào icon giỏ hàng ở mỗi sảng phẩm
+			$(".add-to-cart").click(function(event) {
+				event.preventDefault();
+				var target = $(this);
+				var product_id = target.data('product-id');
+				$.ajax({
+					method: "POST",
+					url: add_cart_url,
+					data: { product_id: product_id }
+				}).done(function( response ) {
+					show_cart_on_menu(response.data);
+				});
+			});
+
+			// lấy danh sách sản phẩm có trong giỏ hàng và hiển thị lên menu
+			$.ajax({
+				method: "GET",
+				url: get_cart_url,
+			}).done(function( response ) {
+				show_cart_on_menu(response.data);
+			});
+
+
+			function show_cart_on_menu(cart) {
+				var cart_content = "";
+				var total_item = Object.keys(cart).length;
+				$('#show-cart-quantity').html(total_item);
+				for(key in cart) {
+					var cart_item = cart[key];
+					cart_content += (`
+						<div class="dropdown-item d-flex align-items-start" href="#">
+							<div class="img" style="background-image: url(/storage/${cart_item.associatedModel.image});"></div>
+							<div class="text pl-3">
+								<h4>${cart_item.name}</h4>
+								<p class="mb-0"><a href="#" class="price">
+									${cart_item.price.toLocaleString()} đ
+									</a><span class="quantity ml-3">Quantity: ${cart_item.quantity}</span></p>
+							</div>
+						</div>
+					`);
+				}
+
+				if(total_item > 0) {
+					cart_content += (`
+						<a class="dropdown-item text-center btn-link d-block w-100" href="${cart_index_url}">
+							Mua hàng
+							<span class="ion-ios-arrow-round-forward"></span>
+						</a>
+					`);
+				} else {
+					cart_content += (`
+						<a class="dropdown-item text-center btn-link d-block w-100">
+							Giỏ hàng trống
+						</a>
+					`);
+				}
+
+				$('#show-cart').html(cart_content);
+			}
+
+		});
+	</script>
 	@stack('scripts')
 </body>
 

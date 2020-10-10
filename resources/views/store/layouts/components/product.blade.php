@@ -2,12 +2,12 @@
     <div class="img d-flex align-items-center justify-content-center" style="background-image: url({{Storage::url($item->image)}});">
         <div class="desc">
             <p class="meta-prod d-flex">
-                <a href="#" class="d-flex align-items-center justify-content-center">
+                <a href="#" class="d-flex align-items-center justify-content-center add-to-cart" data-product-id="{{$item->id}}">
                     <span class="flaticon-shopping-bag"></span>
                 </a>
-                <a href="#" class="d-flex align-items-center justify-content-center">
+                {{-- <a href="#" class="d-flex align-items-center justify-content-center">
                     <span class="flaticon-heart"></span>
-                </a>
+                </a> --}}
                 <a href="{{ route('store.product', ['id'=> $item->id]) }}" class="d-flex align-items-center justify-content-center">
                     <span class="flaticon-visibility"></span>
                 </a>

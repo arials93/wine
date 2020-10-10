@@ -114,14 +114,14 @@
                                 <td>{{$item->phone}}</td>
                                 <td>{{$item->email}}</td>
                                 <td>    
-                                    <button type="button" class="btn btn-label-warning btn-bold btn-sm btn-icon-h kt-margin-l-10" title="Trạng thái" data-toggle="modal" data-target="#kt_modal_1_2_{{$item->id}}"> 
-                                        {{$item->deleted_at ? 'Disable' : 'Active'}}
+                                    <button type="button" class="btn btn-label-warning btn-bold btn-sm btn-icon-h kt-margin-l-10"
+                                        title="{{$item->deleted_at ? 'Tài khoản đã bị hủy' : 'Tài khoản đang hoạt động'}}" data-toggle="modal" data-target="#kt_modal_1_2_{{$item->id}}"> 
+                                        {{$item->deleted_at ? 'Active' : 'Disable'}}
                                         </button>
                                         <!--begin::Modal-->
                                         <div class="modal fade" id="kt_modal_1_2_{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
-                                                <form class="modal-content" method="POST" action="{{ route('manager.users.destroy', ['user'=>$item->id]) }}">
-                                                    @method('DELETE')
+                                                <form class="modal-content" method="POST" action="{{ route('manager.user.disable', ['id'=>$item->id]) }}">
                                                     @csrf
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLabel">Xóa</h5>
@@ -129,11 +129,11 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Bạn có chắc muốn xóa này?
+                                                        Bạn có chắc muốn {{$item->deleted_at ? 'kích hoạt' : 'hủy'}} tài khoản này này?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                                        <button type="submit" class="btn btn-primary">Xóa</button>
+                                                        <button type="submit" class="btn btn-primary">OK</button>
                                                     </div>
                                                 </form>
                                             </div>
