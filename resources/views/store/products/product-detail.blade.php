@@ -275,6 +275,27 @@
                                             <span>0 Reviews</span>
                                         </p>
                                     </div>
+                                    <form class="review-form">
+                                        <div class="form-group">
+                                            <label>Đánh giá</label>
+                                            <p class="star">
+                                                <span>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                                <span>Chọn số sao</span>
+                                            </p>
+                                            <textarea name="notes" class="form-control"></textarea>
+                                            {{-- <span class="form-text @error('notes') text-danger @enderror">
+                                                @error('notes') {{ $message }} @else {{ 'Nhập ghi chú' }} @enderror
+                                            </span> --}}
+                                        </div>
+
+                                        <p><button type="submit" class="btn btn-primary py-2 px-2">Đánh giá</button></p>
+                                    </form>
                                 </div>
                             </div>
                         </div>
