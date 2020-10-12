@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes(['verify' => true]);
-Route::namespace('Store')->name('store.')->group( function() {
+Route::namespace('Store')->name('store.')->middleware('verified_if_login')->group( function() {
     //Home
     Route::get('/', 'HomeController@index')->name('home');
 
@@ -46,7 +46,7 @@ Route::namespace('Store')->name('store.')->group( function() {
 
 });
 
-Route::prefix('admin')->namespace('Manager')->name('manager.')->group( function() {
+Route::prefix('admin')->namespace('Manager')->name('manager.')->middleware(['auth', 'verified', 'administrator'])->group( function() {
     //Dashboard
     Route::get('/','DashboardController@index')->name('dashboard');
     
