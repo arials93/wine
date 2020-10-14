@@ -72,6 +72,15 @@
                 </select>
             </div>
             <div class="kt-margin-t-20 kt-margin-b-10 d-inline-flex col-lg-3">
+                <select class="form-control" name="status">
+                    <option value="0">Tất cả trạng thái</option>
+                    <option  @if (request()->status == 1) selected @endif 
+                        value="1">Kích hoạt</option>
+                    <option  @if (request()->status == 2) selected @endif 
+                        value="2">Đang hủy</option>
+                </select>
+            </div>
+            <div class="kt-margin-t-20 kt-margin-b-10 d-inline-flex col-lg-3">
                 <button type="submit" class="btn btn-primary btn-hover-brand"> 
                     <span>Lọc</span>
                 </button>
@@ -116,7 +125,7 @@
                                 <td>    
                                     <button type="button" class="btn btn-label-warning btn-bold btn-sm btn-icon-h kt-margin-l-10"
                                         title="{{$item->deleted_at ? 'Tài khoản đã bị hủy' : 'Tài khoản đang hoạt động'}}" data-toggle="modal" data-target="#kt_modal_1_2_{{$item->id}}"> 
-                                        {{$item->deleted_at ? 'Active' : 'Disable'}}
+                                        {{$item->deleted_at ? 'Đang hủy' : 'Hoạt động'}}
                                         </button>
                                         <!--begin::Modal-->
                                         <div class="modal fade" id="kt_modal_1_2_{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -129,7 +138,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Bạn có chắc muốn {{$item->deleted_at ? 'kích hoạt' : 'hủy'}} tài khoản này này?
+                                                        Bạn có chắc muốn {{$item->deleted_at ? 'kích hoạt' : 'hủy'}} tài khoản này?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
@@ -148,11 +157,11 @@
                                 </td>
                             </tr>
                             @empty
-                            @if (request()->search || request()->user_category)
+                            @if (request()->search || request()->admin || request()->status)
                             <tr>
-                                <td colspan="7">
+                                <td colspan="9">
                                     <span class="form-text text-danger text-center">
-                                        Không có bài viết nào phù hợp với tìm kiếm trên
+                                        Không có người dùng nào phù hợp với tìm kiếm trên
                                     </span>     
                                 </td>    
                             </tr>

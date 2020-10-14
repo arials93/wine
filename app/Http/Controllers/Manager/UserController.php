@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Model\User;
 
 class UserController extends Controller
@@ -16,49 +17,34 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $paginate = 1;
-        //Lọc user là quản trị (admin), chỉ dành cho super admin
-        if($request->admin)
-        {
-            //Lọc user theo tên, điện thoại và email
-           if($request->search)
-           {
-               $search = $request->search;
-               //Hiển thị user trừ bản thân
-               $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
-                            ->where('is_admin',1)
-                            ->where(function ($q) use ($search) {
-                                $q->where('name','LIKE','%'.$search.'%')
-                                ->orWhere('phone','LIKE','%'.$search.'%')
-                                ->orWhere('email', 'LIKE', '%'.$search.'%');
-                            })->paginate($paginate);
-           }
-           else
-                $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
-                            ->where('is_admin',1)
-                            ->paginate($paginate);
+        $status = $request->status;
+        $search = $request->search;
+        //Lọc user là quản trị (admin), chỉ dành cho super admin khi có requets->admin = 1
+        $datas = User::where('id', '!=', auth()->user()->id)->where('is_admin', $request->admin ? 1 : 0);
+
+        //Lọc trạng thái
+        switch($status) {
+            //Lấy tất cả người dùng
+            case 0:
+                $datas->withTrashed();
+                break;
+            //Chỉ lấy người dùng đã bị hủy
+            case 2:
+                $datas->onlyTrashed();
+                break;
+            //Lấy người dùng đang kích hoạt
+            default:
+                break;
         }
-        else
-        {
-            //Lọc user là khách hàng theo tên, điện thoại và email
-            if($request->search)
-           {
-               $search = $request->search;
-               $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
-                            ->where('is_admin',0)
-                            ->where(function ($q) use ($search) {
-                                $q->where('name','LIKE','%'.$search.'%')
-                                ->orWhere('phone','LIKE','%'.$search.'%')
-                                ->orWhere('email', 'LIKE', '%'.$search.'%');
-                            })->paginate($paginate);
-           }
-           //Lọc theo khách hàng
-            else
-                $datas = User::withTrashed()->where('id', '!=', auth()->user()->id)
-                            ->where('is_admin',0)
-                            ->paginate($paginate);
+        //Lọc theo tên, email và số điện thoại
+        if($request->search) {
+            $datas->where(function ($q) use ($search) {
+                $q->where('name','LIKE','%'.$search.'%')
+                ->orWhere('phone','LIKE','%'.$search.'%')
+                ->orWhere('email', 'LIKE', '%'.$search.'%');
+            });
         }
-        // $datas = User::where('id', '!=', auth()->user()->id)->paginate(10);
-        return view('manager.users.index', ['datas' => $datas]);
+        return view('manager.users.index', ['datas' => $datas->paginate($paginate)]);
     }
 
     /**
@@ -68,7 +54,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('manager.users.create');
     }
 
     /**
@@ -79,7 +66,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $path = $request->image ? $request->file('image')->store('users','public') : null; 
+        $data = $request->all();
+        $data['image'] = $path;
+        // mã hóa password trước khi lưu 
+        $data['password'] = Hash::make($request->password);
+        $data['gender'] = $data['gender'] == 'true' ? true : false;
+        // is_admin from string to bool
+        $data['is_admin'] = $data['is_admin'] == 'true' ? true : false;
+        $user = User::create($data);
+        return redirect()->route('manager.users.index')->with('msg', 'Đã tạo tài khoản thành công');
     }
 
     /**
@@ -124,15 +120,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = Product::findOrFail($id);
-        // xóa hình cũ
-        if(Storage::disk('public')->exists($user->image)) {
-            Storage::disk('public')->delete($user->image);
-        }
-        $product->delete();
-        return back()->with('message','Đã xóa thành công');
+        // 
     }
-
+    
     public function disable($id) {
         
         $user = User::onlyTrashed()->where('id', $id)->first();
@@ -143,8 +133,8 @@ class UserController extends Controller
             $user->restore();
         }
 
-        $msg = $user->deleted_at ? 'kích hoạt' : 'hủy';
+        $msg = $user->deleted_at ? 'hủy' : 'kích hoạt';
 
-        return back()->with('message',"Đã $msg tài khoản thành công");
+        return back()->with('message',"Đã $msg tài khoản thành công.");
     }
 }

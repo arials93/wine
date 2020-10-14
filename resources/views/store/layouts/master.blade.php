@@ -150,8 +150,8 @@
 			<div class="row mb-5">
 				<div class="col-sm-12 col-md">
 					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2 logo"><a href="#">Liquor <span>Store</span></a></h2>
-						<p>Far far away, behind the word mountains, far from the countries.</p>
+						<h2 class="ftco-heading-2 logo"><a href="#">Wine <span>Shop</span></a></h2>
+						<p>Every empty bottle is filled with stories.</p>
 						<ul class="ftco-footer-social list-unstyled mt-2">
 							<li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
 							<li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
@@ -160,49 +160,67 @@
 					</div>
 				</div>
 				<div class="col-sm-12 col-md">
-					<div class="ftco-footer-widget mb-4 ml-md-4">
-						<h2 class="ftco-heading-2">My Accounts</h2>
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Tài khoản</h2>
 						<ul class="list-unstyled">
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>My Account</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Register</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Log In</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>My Order</a></li>
+							@if (Auth::check())
+								<li>
+									<span class="fa fa-chevron-right mr-2"></span>{{Auth::user()->email}} 
+								</li>
+								<li>
+									<a title="Thông tin cá nhân" href="#">
+										<span class="fa fa-chevron-right mr-2"></span>Thông tin cá nhân
+									</a>
+								</li>
+								<li>
+									<a href="{{ route('logout') }}" onclick="event.preventDefault();
+									document.getElementById('logout-form').submit();">
+									<span class="fa fa-chevron-right mr-2"></span>Đăng xuất
+									</a>
+								</li>
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+									@csrf
+								</form>								                                                         
+							@else
+								<li><a href="{{ asset('register') }}"><span class="fa fa-chevron-right mr-2"></span>Đăng ký</a></li>
+								<li><a href="{{ asset('login') }}"><span class="fa fa-chevron-right mr-2"></span>Đăng nhập</a></li>
+								<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Quên mật khẩu</a></li>
+							@endif
 						</ul>
 					</div>
 				</div>
+
 				<div class="col-sm-12 col-md">
-					<div class="ftco-footer-widget mb-4 ml-md-4">
-						<h2 class="ftco-heading-2">Information</h2>
+					<div class="ftco-footer-widget mb-4 ml-md-3">
+						<h2 class="ftco-heading-2">Bài viết</h2>
 						<ul class="list-unstyled">
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>About us</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Catalog</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Contact us</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Term &amp; Conditions</a></li>
+							@foreach ($menu_blogs as $item)
+								<li><a href="{{ route('store.blogs', ['blog_category' => $item->id]) }}"><span class="fa fa-chevron-right mr-2"></span>{{$item->name}}</a></li>
+							@endforeach
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-sm-12 col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Về chúng tôi</h2>
+						<ul class="list-unstyled">
+							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Giới thiệu</a></li>
+							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Liên hệ</a></li>
+							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Chính sách giao hàng</a></li>
+							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Chính sách đổi trả</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-sm-12 col-md">
 					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Quick Link</h2>
-						<ul class="list-unstyled">
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>New User</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Help Center</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Report Spam</a></li>
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Faq's</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-sm-12 col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Have a Questions?</h2>
+						<h2 class="ftco-heading-2">Thông tin cửa hàng</h2>
 						<div class="block-23 mb-3">
 							<ul>
-								<li><span class="icon fa fa-map marker"></span><span class="text">203 Fake St. Mountain
-										View, San Francisco, California, USA</span></li>
-								<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+2 392 3929
-											210</span></a></li>
+								<li><span class="icon fa fa-map marker"></span><span class="text">78 Dương Quảng Hàm, Phường 5, Quận Gò Vấp, TPHCM</span></li>
+								<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">0924645654</span></a></li>
 								<li><a href="#"><span class="icon fa fa-paper-plane pr-4"></span><span
-											class="text">info@yourdomain.com</span></a></li>
+											class="text">ariasl93@gmail.com</span></a></li>
 							</ul>
 						</div>
 					</div>

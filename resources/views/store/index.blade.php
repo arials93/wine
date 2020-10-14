@@ -8,6 +8,15 @@
         display: none !important;
     }
 
+    .testimony-wrap .user-img {
+        width: 120px !important;
+        height: 120px !important;
+        border-radius: 0% !important;
+    }
+    .testimony-wrap {
+        padding: 0px 0px;
+        border: none; 
+    }
     #carousel1 .carousel-indicators li {
         width: 10px;
         height: 10px;
@@ -127,9 +136,8 @@
                         <span class="flaticon-support"></span>
                     </div>
                     <div class="text">
-                        <h2>Online Support 24/7</h2>
-                        <p>A small river named Duden flows by their place and supplies it with the necessary
-                            regelialia.</p>
+                        <h2>Tư vấn 24/7</h2>
+                        <p>Gọi ngay 0924645654</p>
                     </div>
                 </div>
             </div>
@@ -139,9 +147,10 @@
                         <span class="flaticon-cashback"></span>
                     </div>
                     <div class="text">
-                        <h2>Money Back Guarantee</h2>
-                        <p>A small river named Duden flows by their place and supplies it with the necessary
-                            regelialia.</p>
+                        <h2>Chính sách đổi trả</h2>
+                        <p>
+                            Đổi trả miễn phí trong 3 ngày
+                        </p>
                     </div>
                 </div>
             </div>
@@ -151,9 +160,10 @@
                         <span class="flaticon-free-delivery"></span>
                     </div>
                     <div class="text">
-                        <h2>Free Shipping &amp; Return</h2>
-                        <p>A small river named Duden flows by their place and supplies it with the necessary
-                            regelialia.</p>
+                        <h2>Vận chuyển miễn phí</h2>
+                        <p>
+                            Đối với đơn hàng trên 500k 
+                        </p>
                     </div>
                 </div>
             </div>
@@ -241,91 +251,31 @@
     </div>
 </section>
 
-<!-- Các thương hiệu rượu vang -->
-<section>
-    {{-- <div class="container border w-100">
-        <div id="carousel2" class="carousel slide text-center" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="thumnail-slider">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                        <img class="" src="images/person_2.jpg" alt="First slide">
-                        <img class="" src="images/person_3.jpg" alt="First slide">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                        <img class="" src="images/person_2.jpg" alt="First slide">
-                        <img class="" src="images/person_3.jpg" alt="First slide">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <div class="thumnail-slider">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                        <img class="" src="images/person_2.jpg" alt="First slide">
-                        <img class="" src="images/person_3.jpg" alt="First slide">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                        <img class="" src="images/person_2.jpg" alt="First slide">
-                        <img class="" src="images/person_3.jpg" alt="First slide">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                    </div>    
-                </div>
-                <div class="carousel-item">
-                    <div class="thumnail-slider">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                        <img class="" src="images/person_2.jpg" alt="First slide">
-                        <img class="" src="images/person_3.jpg" alt="First slide">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                        <img class="" src="images/person_2.jpg" alt="First slide">
-                        <img class="" src="images/person_3.jpg" alt="First slide">
-                        <img class="" src="images/person_1.jpg" alt="First slide">
-                    </div>    
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carousel2" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carousel2" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div> --}}
-</section>
-
-
-<!--  -->
+<!-- Các nhãn hiệu -->
 
 <section class="ftco-section testimony-section img" style="background-image: url(images/bg_4.jpg);">
     <div class="overlay"></div>
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-                <span class="subheading">Testimonial</span>
-                <h2 class="mb-3">Happy Clients</h2>
+                <span class="subheading">Các lựa chọn cao cấp</span>
+                <h2 class="mb-3">Nhãn hiệu</h2>
             </div>
         </div>
         <div class="row ftco-animate">
             <div class="col-md-12">
                 <div class="carousel-testimony owl-carousel ftco-owl">
-                    @for ($i = 0; $i < 7; $i++)
-                        <div class="item">
-                            <div class="testimony-wrap py-4">
-                                {{-- <div class="icon d-flex align-items-center justify-content-center"><span
-                                        class="fa fa-quote-left"></div> --}}
-                                <div class="text">
-                                    {{-- <p class="mb-4">Far far away, behind the word mountains, far from the countries
-                                        Vokalia and Consonantia, there live the blind texts.</p> --}}
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-img" style="background-image: url(images/person_1.jpg)"></div>
-                                        <div class="pl-3">
-                                            <p class="name">Roger Scott</p>
-                                            <span class="position">Marketing Manager</span>
-                                        </div>
-                                    </div>
+                    @foreach ($brands as $item)
+                    <div class="item">
+                        <div class="testimony-wrap">
+                            <div class="text">                                   
+                                <div class="d-flex align-items-center text-center">
+                                    <div class="user-img" style="background-image: url({{Storage::url($item->image)}})"></div>
                                 </div>
                             </div>
                         </div>
-                    @endfor       
+                    </div>
+                    @endforeach    
                 </div>
             </div>
         </div>
@@ -337,8 +287,8 @@
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-md-7 heading-section text-center ftco-animate">
-                <span class="subheading">Blog</span>
-                <h2>Recent Blog</h2>
+                <span class="subheading">Các bài viết gần đây</span>
+                <h2>Bài viết</h2>
             </div>
         </div>
         <div class="row d-flex">

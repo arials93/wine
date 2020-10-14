@@ -23,12 +23,12 @@ class ProductController extends Controller
         {
             //Hiển thị sản phẩm theo loại sản phẩm cha (xem tất cả)
             //Lấy dữ liệu trong relations của Category là products
-            $data['products'] = Category::where('id',$category)->with(['sub_categories'])->first()->products()->paginate($paginate);
+            $data['products'] = Category::where('id',$category)->where->with(['sub_categories'])->first()->products()->paginate($paginate);
         }
         else
         {
             //Hiển thị sản phẩm theo loại sản phẩm con
-            $data['products'] = Product::where('sub_category_id',$sub_category)->with('sub_category')->paginate($paginate);
+            $data['products'] = Product::where('sub_category_id',$sub_category)->where('instock','>',0)->with('sub_category')->paginate($paginate);
         }
         return view('store.products.products',$data);
     }

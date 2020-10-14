@@ -79,7 +79,7 @@
                         <p style="color: #000;">Còn: {{$product->instock}} sản phẩm</p>
                         </div>
                     </div>
-                    <p><a href="cart.html" class="btn btn-primary py-3 px-5 mr-2">Add to Cart</a><a href="cart.html"
+                    <p><a href="cart.html" class="btn btn-primary py-3 px-5 mr-2">Thêm vào giỏ</a><a href="cart.html"
                             class="btn btn-primary py-3 px-5">Buy now</a></p>
                 </div>
             </div>
@@ -140,7 +140,7 @@
                         <!-- Miêu tả -->
                         <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-day-2-tab">
                             <div class="p-4">
-                                <h3 class="mb-4">Manufactured By Liquor Store</h3>
+                                <h3 class="mb-4">Miêu tả</h3>
                                 <p>{{$product->description}}</p>
                             </div>
                         </div>

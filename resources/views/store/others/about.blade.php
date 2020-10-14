@@ -120,7 +120,6 @@
 		</div>
 	</section>
 
-
 	<section class="ftco-section testimony-section img" style="background-image: url(images/bg_4.jpg);">
 		<div class="overlay"></div>
 		<div class="container">
@@ -223,7 +222,6 @@
 			</div>
 		</div>
 	</section>
-
 
 	<section class="ftco-counter ftco-section ftco-no-pt ftco-no-pb img bg-light" id="section-counter">
 		<div class="container">
