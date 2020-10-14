@@ -28,6 +28,8 @@ Route::namespace('Store')->name('store.')->middleware('verified_if_login')->grou
     //Cart
     Route::get('cart', 'CartController@index')->name('cart');
     Route::get('checkout', 'CartController@checkout')->name('checkout');
+    Route::post('order', 'CartController@order')->name('order');
+    Route::get('order-complete', 'CartController@order_complete')->name('order-complete');
 
     //Others
     Route::view('contact', 'store.others.contact')->name('contact');

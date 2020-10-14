@@ -6,7 +6,7 @@
     @include('store.layouts.components.wrap-page')
 
     <section class="ftco-section">
-		<form action="{{-- route('store.cart.order') --}}" method="POST" class="billing-form" class="container">
+		<form action="{{ route('store.order') }}" method="POST" class="billing-form" class="container">
 				<div class="row justify-content-center">
 					<div class="col-xl-10 ftco-animate">
 						<div class="billing-form" >
@@ -14,22 +14,30 @@
 							<h3 class="mb-4 billing-heading">Chi tiết hóa đơn</h3>
 							<div class="row align-items-end">
 								<div class="col-md-6">
+									<div class="form-check-inline">
+										<label class="form-check-label" for="gift_check">
+											Mua làm quà <input type="checkbox" id="gift_check" class="form-check-input" value="true"
+														@if(old('is_gift') == "true") {{ 'checked' }} @endif name="is_gift">
+									  </div>
+								</div>
+								<div class="w-100"></div>
+								<div class="col-md-6">
 									<div class="form-group">
 										<label for="firstname">Tên</label>
-										<input type="text" name="name" class="form-control"
-										value="@if(old('name')) {{old('name')}} @elseif(Auth::check()) {{ Auth::user()->name }} @endif"/>
-										<span class="form-text @error('name') text-danger @enderror">
-											@error('name') {{ $message }} @else {{ 'Nhập họ tên' }} @enderror
+										<input type="text" name="bill_name" class="form-control"
+										value="@if(old('bill_name')) {{old('bill_name')}} @elseif(Auth::check()) {{ Auth::user()->name }} @endif"/>
+										<span class="form-text @error('bill_name') text-danger @enderror">
+											@error('bill_name') {{ $message }} @else {{ 'Nhập họ tên' }} @enderror
 										</span>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="phone">Số điện thoại</label>
-										<input type="text" name="phone" class="form-control" 
-										value="@if(old('phone')) {{old('phone')}} @elseif(Auth::check()) {{ Auth::user()->phone }} @endif">
-										<span class="form-text @error('phone') text-danger @enderror">
-											@error('phone') {{ $message }} @else {{ 'Nhập số điện thoại' }} @enderror
+										<input type="text" name="bill_phone" class="form-control" 
+										value="@if(old('bill_phone')) {{old('bill_phone')}} @elseif(Auth::check()) {{ Auth::user()->phone }} @endif">
+										<span class="form-text @error('bill_phone') text-danger @enderror">
+											@error('bill_phone') {{ $message }} @else {{ 'Nhập số điện thoại' }} @enderror
 										</span>
 									</div>
 								</div>
@@ -42,6 +50,32 @@
 										<span class="form-text @error('email') text-danger @enderror">
 											@error('email') {{ $message }} @else {{ 'Nhập số địa chỉ email' }} @enderror
 										</span>
+									</div>
+								</div>
+
+								<div class="w-100"></div>
+								<div id="gifted" class="col-md-12 mx-0 d-none">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="firstname">Họ tên người nhận</label>
+												<input type="text" name="ship_name" class="form-control"
+												value="@if(old('ship_name')) {{old('ship_name')}} @elseif(Auth::check()) {{ Auth::user()->name }} @endif"/>
+												<span class="form-text @error('ship_name') text-danger @enderror">
+													@error('ship_name') {{ $message }} @else {{ 'Nhập họ tên người nhận' }} @enderror
+												</span>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="phone">Số điện thoại người nhận</label>
+												<input type="text" name="ship_phone" class="form-control" 
+												value="@if(old('ship_phone')) {{old('ship_phone')}} @elseif(Auth::check()) {{ Auth::user()->phone }} @endif">
+												<span class="form-text @error('ship_phone') text-danger @enderror">
+													@error('ship_phone') {{ $message }} @else {{ 'Nhập số điện thoại người nhận' }} @enderror
+												</span>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="w-100"></div>
@@ -114,3 +148,22 @@
 			</form>
 		</section>
 @endsection
+
+@push('scripts')
+<script>
+	$(document).ready(function() {
+		show_addition_form($('#gift_check')[0]);
+		$('#gift_check').change(function() {
+			show_addition_form(this);
+		});
+
+		function show_addition_form(checker) {
+			if(checker.checked) {
+				$('#gifted').removeClass('d-none');
+			} else {
+				$('#gifted').addClass('d-none');
+			}
+		}
+	});
+</script>	
+@endpush

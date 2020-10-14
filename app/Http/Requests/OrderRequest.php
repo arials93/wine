@@ -24,9 +24,11 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'bill_name' => 'required|max:255',
             'email' => 'required|email:rfc,dns',
-            'phone' => 'numeric|digits_between:10,11',
+            'bill_phone' => 'numeric|digits_between:10,11',
+            'ship_name' => 'required_if:is_gift,true|max:255',
+            'ship_phone' => 'required_if:is_gift,true|digits_between:10,11',
             'address' => 'required',
         ];
     }
@@ -39,13 +41,16 @@ class OrderRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Vui lòng nhập họ tên',
-            'name.max' => 'Họ tên tối đa 255 ký tự',
-            'phone.numeric' => 'Vui lòng nhập số điện thoại',
-            'phone.digits_between' => 'Số điện thoại chỉ có 10 hoặc 11 số',
+            'bill_name.required' => 'Vui lòng nhập họ tên',
+            'bill_name.max' => 'Họ tên tối đa 255 ký tự',
+            'bill_phone.numeric' => 'Vui lòng nhập số điện thoại',
+            'bill_phone.digits_between' => 'Số điện thoại chỉ có 10 hoặc 11 số',
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Vui lòng nhập đúng email',
-            'address.required' => 'Vui lòng nhập địa chỉ'
+            'address.required' => 'Vui lòng nhập địa chỉ',
+            'ship_name.required_if' => 'Vui lòng nhập tên người nhận',
+            'ship_phone.required_if' => 'Vui lòng nhập số điện thoại người nhận',
+            'ship_phone.digits_between' => 'Số điện thoại chỉ có 10 hoặc 11 số',
         ];
     }
 }
