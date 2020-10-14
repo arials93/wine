@@ -236,6 +236,21 @@
 			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
 				stroke="#F96D00" /></svg></div>
 
+	<div class="modal" id="info_modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<!-- Modal body -->
+			<div class="modal-body"></div>
+			
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+			</div>
+			
+			</div>
+		</div>
+	</div>
+
 
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery-migrate-3.0.1.min.js"></script>
@@ -265,13 +280,27 @@
 			$(".add-to-cart").click(function(event) {
 				event.preventDefault();
 				var target = $(this);
+				var product_detail = $('#product-details');
 				var product_id = target.data('product-id');
+				var quantity = 1;
+				if(product_detail.length) {
+					quantity = product_detail.find('#quantity').val();
+				}
 				$.ajax({
 					method: "POST",
 					url: add_cart_url,
-					data: { product_id: product_id }
-				}).done(function( response ) {
-					show_cart_on_menu(response.data);
+					data: { product_id, quantity },
+					success: function(response) {
+						$('#info_modal').find('.modal-body').html("Sản phẩm đã được thêm vào giỏ hàng");
+						$('#info_modal').modal('show'); 
+						show_cart_on_menu(response.data);
+					},
+					error: function(err) {
+						if(err.status == 400 && err.responseJSON.error_code == 'OUT_OF_STOCK') {
+							$('#info_modal').find('.modal-body').html(err.responseJSON.message);
+							$('#info_modal').modal('show'); 
+						}
+					}
 				});
 			});
 

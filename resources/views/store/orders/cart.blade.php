@@ -7,6 +7,9 @@
 
     <section class="ftco-section">
         <div class="container">
+            @if (session('stock_message'))
+                <div class="alert alert-info">{{session('stock_message')}}</div>
+            @endif
             <div class="row">
                 <div class="table-wrap">
                     <table class="table">
@@ -57,7 +60,7 @@
             url: get_cart_url,
         }).done(function( response ) {
             show_cart_on_page(response.data);
-            apply_on_keyup_quantity();
+            apply_on_input_quantity();
             apply_on_click_delete();
         });
 
@@ -101,21 +104,35 @@
 
         // khi giỏ hàng được load từ ajax lên các event thao tác với dom sẽ không thể thực hiên được
         // vì vậy sau khi load giao diện từ ajax lên html chúng ta phải gọi hàm này để đảm bảo event keyup hoạt động tốt
-        function apply_on_keyup_quantity() {
-            $('[name="quantity"]').keyup(function() {
+        function apply_on_input_quantity() {
+            $('[name="quantity"]').on('input', function() {
                 var target = $(this);
                 var cart_id = target.data('cart-id');
                 var quantity = target.val();
+                console.log(quantity);
+                if((quantity != "" && quantity <= 0) || isNaN(quantity)) {
+                    quantity = 1;
+                    target.val(quantity);
+                }
+
                 if(quantity) {
                     // cập nhật só lượng sản phẩm
                     $.ajax({
                         method: "POST",
                         url: update_cart_url,
-                        data: {cart_id, quantity}
-                    }).done(function( response ) {
-                        var cart_item = response.data[cart_id];
-                        target.parents('.item-cart').find('.sum-price').html((cart_item.price * cart_item.quantity).toLocaleString() + ' đ');
-                        $('#total-price').html(response.total.toLocaleString() + ' đ')
+                        data: {cart_id, quantity},
+                        success: function(response) {
+                            var cart_item = response.data[cart_id];
+                            target.parents('.item-cart').find('.sum-price').html((cart_item.price * cart_item.quantity).toLocaleString() + ' đ');
+                            $('#total-price').html(response.total.toLocaleString() + ' đ')
+                        },
+                        error: function(err) {
+                            if(err.status == 400 && err.responseJSON.error_code == 'OUT_OF_STOCK') {
+                                $('#info_modal').find('.modal-body').html(err.responseJSON.message);
+                                $('#info_modal').modal('show');
+                                target.val(err.responseJSON.old_quantity);
+                            }
+                        }
                     });
                 }
             });
