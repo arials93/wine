@@ -28,7 +28,7 @@ class OrderRequest extends FormRequest
             'email' => 'required|email:rfc,dns',
             'bill_phone' => 'numeric|digits_between:10,11',
             'ship_name' => 'required_if:is_gift,true|max:255',
-            'ship_phone' => 'required_if:is_gift,true|digits_between:10,11',
+            'ship_phone' => 'required_if:is_gift,true|digits_between:10,11|nullable',
             'address' => 'required',
         ];
     }

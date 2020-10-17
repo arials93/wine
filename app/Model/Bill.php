@@ -22,6 +22,18 @@ class Bill extends Model
         'bill_code', 'bill_name', 'bill_phone', 'ship_name', 'ship_phone', 'address', 'email', 'notes', 'ship_date', 'receive_date', 
         'confirm', 'user_id', 'cause', 'is_cancel',
     ];
+
+        /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'ship_date' => 'datetime',
+        'receive_date' => 'datetime',
+        'confirm' => 'boolean',
+        'is_cancel' => 'boolean',
+    ];
     /**
      * Get the user that owns the bill.(inverse one to many)
      */
