@@ -21,7 +21,7 @@ class BlogController extends Controller
         if($blog_category == 0)
         {
             //Hiển thị tất cả bài viết
-            $data['blogs'] = Blog::paginate($paginate);
+            $data['blogs'] = Blog::where('name','!=','Giới thiệu')->paginate($paginate);
         }
         else
         {

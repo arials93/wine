@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 use App\Model\User;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -16,11 +20,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $paginate = 1;
+        $paginate = 5;
         $status = $request->status;
         $search = $request->search;
         //Lọc user là quản trị (admin), chỉ dành cho super admin khi có requets->admin = 1
-        $datas = User::where('id', '!=', auth()->user()->id)->where('is_admin', $request->admin ? 1 : 0);
+        $datas = User::where('is_admin', $request->admin ? 1 : 0);
 
         //Lọc trạng thái
         switch($status) {
@@ -64,7 +68,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
         $path = $request->image ? $request->file('image')->store('users','public') : null; 
         $data = $request->all();
@@ -75,7 +79,7 @@ class UserController extends Controller
         // is_admin from string to bool
         $data['is_admin'] = $data['is_admin'] == 'true' ? true : false;
         $user = User::create($data);
-        return redirect()->route('manager.users.index')->with('msg', 'Đã tạo tài khoản thành công');
+        return redirect()->route('manager.users.index')->with('message', 'Đã tạo tài khoản thành công');
     }
 
     /**
@@ -86,7 +90,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        // 
     }
 
     /**
@@ -97,7 +101,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        // chỉ super admin và chính nó được chỉnh sửa thông tin cá nhân
+        if(auth()->user()->id == $id || auth()->user()->is_super_admin) {
+            $user = User::withTrashed()->where('id',$id)->first();
+            return view('manager.users.edit', ['user' => $user]);
+        }
+        //trả về trang 404
+        abort(404); 
     }
 
     /**
@@ -107,11 +117,50 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request, $id)
     {
-        //
-    }
+        if(auth()->user()->id == $id || auth()->user()->is_super_admin) {
+            // những field không cần update
+            // loại bỏ email vì email k thể update
+            // loại bỏ password nếu k update password
+            $except_field = ['email', 're-password', 'password'];
+            $data = $request->except($except_field);
 
+            // nếu có password được truyền lên server thì update luôn password
+            if($request->password) {
+                // loại bỏ password khỏi danh sách loại trừ
+                unset($except_field['password']);
+                $data = $request->except($except_field);
+                // mã hóa password trước khi update
+                $data['password'] = Hash::make($request->password);
+            }
+
+            $user = User::withTrashed()->where('id',$id)->first();
+            //Nếu k có thay đổi hình thì vẫn giữ hình cũ
+            if($request->file('image')) {
+                $path = $request->file('image')->store('users', 'public');
+                $data['image'] = $path;
+    
+                // xóa hình cũ
+                if(Storage::disk('public')->exists($user->image)) {
+                    Storage::disk('public')->delete($user->image);
+                }
+            }
+            // gender from string to bool
+            $data['gender'] = $data['gender'] == 'true' ? true : false;
+            // is_admin from string to bool
+            $data['is_admin'] = $data['is_admin'] == 'true' ? true : false;
+            // nếu chỉnh sửa thông tin của chính mình thì is_admin của super admin luôn luôn phải như cũ
+            if($id == auth()->user()->id) {
+                $data['is_admin'] = auth()->user()->is_admin;
+            }
+            $user->update($data);
+            return redirect()->route('manager.users.index')->with('message','Đã cập nhật tài khoản thành công');
+        }
+        //Trả về 404
+        abort(404);
+    }
+    
     /**
      * Remove the specified resource from storage.
      *

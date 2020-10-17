@@ -4,6 +4,19 @@
 
 @push('styles')
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+	<style>
+        .selectpicker {
+            color: #999;
+            cursor: pointer;
+            background-color: #e2e6ea;
+            border-color: #dae0e5;
+            text-decoration: none;
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border: 1px solid transparent;
+            width: 100%;
+        }
+    </style>
 @endpush
 
 @section('main')
@@ -12,58 +25,7 @@
     <section class="ftco-section">
 		<div class="container">
 			<div class="row">
-                <div class="col-md-3">
-					<div class="sidebar-box ftco-animate">
-						<div class="categories">
-							<h3>Product Types</h3>
-							<ul class="p-0">
-								<li><a href="#">Brandy <span class="fa fa-chevron-right"></span></a></li>
-								<li><a href="#">Gin <span class="fa fa-chevron-right"></span></a></li>
-								<li><a href="#">Rum <span class="fa fa-chevron-right"></span></a></li>
-								<li><a href="#">Tequila <span class="fa fa-chevron-right"></span></a></li>
-								<li><a href="#">Vodka <span class="fa fa-chevron-right"></span></a></li>
-								<li><a href="#">Whiskey <span class="fa fa-chevron-right"></span></a></li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="sidebar-box ftco-animate">
-						<h3>Recent Blog</h3>
-						<div class="block-21 mb-4 d-flex">
-							<a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
-							<div class="text">
-								<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the
-										blind texts</a></h3>
-								<div class="meta">
-									<div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
-									<div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
-								</div>
-							</div>
-						</div>
-						<div class="block-21 mb-4 d-flex">
-							<a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);"></a>
-							<div class="text">
-								<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the
-										blind texts</a></h3>
-								<div class="meta">
-									<div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
-									<div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
-								</div>
-							</div>
-						</div>
-						<div class="block-21 mb-4 d-flex">
-							<a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-							<div class="text">
-								<h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the
-										blind texts</a></h3>
-								<div class="meta">
-									<div><a href="#"><span class="fa fa-calendar"></span> Apr. 18, 2020</a></div>
-									<div><a href="#"><span class="fa fa-comment"></span> 19</a></div>
-								</div>
-							</div>
-						</div>
-					</div>
-                </div>
+				
                 
 				<div class="col-md-9">
 					<div class="row mb-4">
@@ -94,7 +56,40 @@
 							</div>
 						</div>
 					</div>
-				</div>				
+				</div>
+				
+				<div class="col-md-3">
+					<div class="sidebar-box ftco-animate">
+						<form class="categories" method="GET">
+                            <h3>Tìm kiếm sản phẩm</h3>
+                            @if (!request()->route('sub_category_id'))
+                                <select name="sub_category" class="selectpicker mb-4">
+                                    <option value="0">Chọn loại sản phẩm</option>
+                                    @foreach ($sub_categories as $item)
+                                    <option {{ request()->sub_category == $item->id ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                            @endif
+                            <select name="size" class="selectpicker mb-4">
+                                <option value="0">Chọn dung tích</option>
+                                @foreach ($sizes as $item)
+                                <option {{ request()->size == $item->id ? 'selected' : '' }} value="{{$item->id}}">{{$item->size}}</option>
+                                @endforeach
+                            </select>
+
+                            <select name="brand" class="selectpicker mb-4">
+                                <option value="0">Chọn nhãn hiệu</option>
+                                @foreach ($brands as $item)
+                                <option {{ request()->brand == $item->id ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+
+                            <input name="name" value="{{ request()->name ?? '' }}" class="selectpicker mb-4" placeholder="Nhập tên sản phẩm"/>
+
+                            <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>

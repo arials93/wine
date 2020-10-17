@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Năm sản xuất</label>
+                    <label class="col-lg-3 col-form-label">Niên vụ</label>
                     <div class="col-lg-6">
                         <input type="text" name="vintage" class="form-control @error('vintage') is-invalid @enderror" autofocus 
                         value="{{old('vintage') ? old('vintage') : $product->vintage}}" placeholder="Nhập năm sản xuất">
@@ -154,12 +154,12 @@
                     <div class="col-lg-6">
                         <div class="kt-radio-inline">
                             <label class="kt-radio kt-radio--bold kt-radio--success">
-                                <input type="radio" value="true" {{ old('bestseller') == '0' ? '' : 'checked' }} checked name="bestseller"> 
+                                <input type="radio" value="true"  @if ($product->bestseller) checked @endif value="true" name="bestseller"> 
                                     Sản phẩm bán chạy
                                 <span></span>
                             </label>
                             <label class="kt-radio kt-radio--bold kt-radio--brand">
-                                <input type="radio" value="false" {{ old('bestseller') == '0' ? 'checked' : '' }} name="bestseller">
+                                <input type="radio" value="false" @if (!$product->bestseller) checked @endif value="false" name="bestseller">
                                     Sản phẩm thường
                                 <span></span>
                             </label>

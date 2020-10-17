@@ -78,7 +78,7 @@
 
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="/">Liquor <span>store</span></a>
+			<a class="navbar-brand" href="/">Wine <span>Shop</span></a>
 			<div class="order-lg-last btn-group">
 				<a href="#" class="btn-cart dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false">
@@ -129,9 +129,6 @@
 							@endforeach
 							<a class="dropdown-item" href="{{ route('store.blogs', ['blog_category'=>0]) }}">Xem tất cả</a>
 						</div>
-					</li>
-					<li class="nav-item @if (Str::contains(url()->current(), 'about')) active @endif">
-						<a href="{{ route('store.about') }}" class="nav-link">Giới thiệu</a>
 					</li>
 					<li class="nav-item @if (Str::contains(url()->current(), 'contact')) active @endif">
 						<a href="{{ route('store.contact') }}" class="nav-link">Liên hệ</a>
@@ -205,7 +202,6 @@
 					<div class="ftco-footer-widget mb-4">
 						<h2 class="ftco-heading-2">Về chúng tôi</h2>
 						<ul class="list-unstyled">
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Giới thiệu</a></li>
 							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Liên hệ</a></li>
 							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Chính sách giao hàng</a></li>
 							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Chính sách đổi trả</a></li>
@@ -233,13 +229,6 @@
 					<div class="col-md-12">
 
 						<p class="mb-0" style="color: rgba(255,255,255,.5);">
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							Copyright &copy;<script>
-								document.write(new Date().getFullYear());
-							</script> All rights reserved | This template is made with <i
-								class="fa fa-heart color-danger" aria-hidden="true"></i> by <a
-								href="https://colorlib.com" target="_blank">Colorlib.com</a>
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</p>
 					</div>
 				</div>

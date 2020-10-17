@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         
        try {
         View::share('menu_cates', Category::with('sub_categories')->get());
-        View::share('menu_blogs',BlogCategory::all());
+        View::share('menu_blogs',BlogCategory::where('name','!=','Giới thiệu')->get());
        } catch (\Illuminate\Database\QueryException $e) {
            //Không làm gì
        }

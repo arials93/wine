@@ -110,12 +110,10 @@
                         @forelse ($datas as $item)
                             <tr>
                                 <td>{{$item->id}}</td>
+                                
                                 <td width="5%">
-                                    @if ($item->image)
-                                        <img class="w-100 img-fluid" src="{{ asset('storage/'.$item->image) }}"/>
-                                    @else
-                                        <img class="w-100 img-fluid" src="{{ asset('store/images/user.jpg') }}"/>
-                                    @endif
+                                    <img class="w-100 img-fluid" 
+                                    src="{{ asset($item->image ? 'storage/'.$item->image : 'store/images/user.jpg') }}"/>
                                 </td>
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->gender ? 'Nam' : 'Nữ'}}</td>

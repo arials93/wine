@@ -48,7 +48,7 @@ Route::namespace('Store')->name('store.')->middleware('verified_if_login')->grou
 
 });
 
-Route::prefix('admin')->namespace('Manager')->name('manager.')->middleware(['auth', 'verified', 'administrator'])->group( function() {
+Route::prefix('admin')->namespace('Manager')->name('manager.')->middleware(['auth', 'administrator'])->group( function() {
     //Dashboard
     Route::get('/','DashboardController@index')->name('dashboard');
     

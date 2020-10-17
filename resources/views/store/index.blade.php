@@ -175,27 +175,25 @@
 <section class="ftco-section ftco-no-pb">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 img img-3 d-flex justify-content-center align-items-center"
-                style="background-image: url(images/about.jpg);">
-            </div>
-            <div class="col-md-6 wrap-about pl-md-5 ftco-animate py-5">
-                <div class="heading-section">
-                    <span class="subheading">Since 1905</span>
-                    <h2 class="mb-4">Desire Meets A New Taste</h2>
+            
+                <div class="col-md-6 img img-3 d-flex justify-content-center align-items-center"
+                    style="background-image: url({{Storage::url($about->image)}});">
+                </div>
+                <div class="col-md-6 wrap-about pl-md-5 ftco-animate py-5">
+                    <div class="heading-section">
+                        <span class="subheading">Từ 2012</span>
+                        <h2 class="mb-4">{{$about->sub_description}}</h2>
 
-                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.
-                        It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                    <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it
-                        would have been rewritten a thousand times and everything that was left from its origin
-                        would be the word "and" and the Little Blind Text should turn around and return to its own,
-                        safe country.</p>
-                    <p class="year">
-                        <strong class="number" data-number="115">0</strong>
-                        <span>Years of Experience In Business</span>
-                    </p>
+                        <p>{!!$about->description!!}</p>
+                        <p class="year">Với
+                            <strong class="number" data-number="{{now()->year - 2012}}">0</strong>
+                            <span>kinh nghiệm trong kinh doanh</span>
+                        </p>
+                    </div>
+
                 </div>
 
-            </div>
+            
         </div>
     </div>
 </section>

@@ -23,7 +23,8 @@
                 <div class="kt-section kt-section--first">
                     <h3 class="kt-section__title">Chọn hình ảnh tải lên</h3>
                     <label class="kt-section__body w-100">
-                        <img width="100%" src="{{ asset('storage/'.$product->image) }}" id="review-img"/>
+                        <img width="100%" id="review-img"
+                        src="{{ asset($user->image ? 'storage/'.$user->image : 'store/images/user.jpg') }}" />
                         <input type="file" id="take-img" name="image" hidden/>
                     </label>
                     <p class="form-text @error('image') text-danger @enderror text-center">
@@ -43,7 +44,7 @@
                         <i class="kt-font-brand flaticon2-plus-1 "></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Sửa sản phẩm
+                        Sửa người dùng
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
@@ -57,159 +58,117 @@
                 </div>
             </div>
             <div class="kt-portlet__body">
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Tên</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" autofocus 
-                        value="{{old('name') ? old('name') : $product->name}}" placeholder="Nhập tên">
+                <div class="kt-section kt-section--first">
+                    <h4 class="kt-section__title">1. Thông tin tài khoản:</h4>
+                    <div class="kt-section__body">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Họ và Tên</label>
+                            <div class="col-lg-6">
+                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" autofocus 
+                                value="{{old('name') ? old('name') : $user->name}}" placeholder="Nhập họ và tên">
 
-                        @error('name')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Mã vạch</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="barcode" class="form-control @error('barcode') is-invalid @enderror" autofocus 
-                        value="{{old('barcode') ? old('barcode') : $product->barcode}}" placeholder="Nhập mã vạch">
-    
-                        @error('barcode')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>                   
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Nồng độ</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="abv" class="form-control @error('abv') is-invalid @enderror" autofocus 
-                        value="{{old('abv') ? old('abv') : $product->abv}}" placeholder="Nhập nồng độ cồn">
-    
-                        @error('abv')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>                  
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Dung tích</label>
-                    <div class="col-lg-6">
-                        <select class="form-control" name="size_id">
-                            @foreach ($sizes as $item)
-                                <option value="{{$item->id}}" {{old('size_id') == $item->id || $item->id == $product->size_id? 'selected':'' }}>
-                                    {{$item->size}} ml<!--Nếu xảy ra lỗi thì hiển thị lại lựa chọn trước đó-->
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('size_id')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Năm sản xuất</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="vintage" class="form-control @error('vintage') is-invalid @enderror" autofocus 
-                        value="{{old('vintage') ? old('vintage') : $product->vintage}}" placeholder="Nhập năm sản xuất">
+                                @error('name')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Giới tính</label>
+                            <div class="col-lg-6">
+                                <div class="kt-radio-inline">
+                                    <label class="kt-radio kt-radio--bold kt-radio--success">
+                                        <input type="radio" @if ($user->gender) checked @endif value="true" name="gender"> Nam
+                                        <span></span>
+                                    </label>
+                                    <label class="kt-radio kt-radio--bold kt-radio--brand">
+                                    <input type="radio" @if (!$user->gender) checked @endif value="false" name="gender"> Nữ
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>                  
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 col-sm-12">Địa chỉ</label>
+                            <div class="col-lg-9 col-md-9 col-sm-12">
+                                <textarea type="text" name="address" class="form-control" rows="2"
+                                placeholder="Nhập địa chỉ">{{ old('address') ? old('address') :  $user->address}}</textarea>
 
-                        @error('vintage')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Đơn giá</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" autofocus 
-                        value="{{ old('price') ? old('price') : $product->price}}" placeholder="Nhập đơn giá">
-
-                        @error('price')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Giảm giá</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="sale" class="form-control @error('sale') is-invalid @enderror" autofocus 
-                        value="{{old('sale') ? old('sale') : $product->sale}}" placeholder="Nhập tỉ lệ giảm giá">
-
-                        @error('sale')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Tồn kho</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="instock" class="form-control @error('instock') is-invalid @enderror" autofocus 
-                        value="{{old('instock') ? old('instock') : $product->instock}}" placeholder="Nhập số lượng tồn">
-
-                        @error('instock')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Sản phẩm thuộc:</label>
-                    <div class="col-lg-6">
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio kt-radio--bold kt-radio--success">
-                                <input type="radio" value="true" {{ old('bestseller') == '0' ? '' : 'checked' }} checked name="bestseller"> 
-                                    Sản phẩm bán chạy
-                                <span></span>
-                            </label>
-                            <label class="kt-radio kt-radio--bold kt-radio--brand">
-                                <input type="radio" value="false" {{ old('bestseller') == '0' ? 'checked' : '' }} name="bestseller">
-                                    Sản phẩm thường
-                                <span></span>
-                            </label>
+                                @error('address')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Số điện thoại</label>
+                            <div class="col-lg-6">
+                                <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror" autofocus 
+                                value="{{old('phone') ? old('phone') : $user->phone}}" placeholder="Nhập số điện thoại">
+            
+                                @error('phone')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>                   
                         </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Loại sản phẩm</label>
-                    <div class="col-lg-6">
-                        <select class="form-control" name="sub_category_id">
-                            @foreach ($sub_categories as $item)
-                                <option value="{{$item->id}}" 
-                                    {{old('sub_category_id') == $item->id || $item->id == $product->sub_category_id ? 'selected':'' }}>
-                                    {{$item->name}} <!--Nếu xảy ra lỗi thì hiển thị lại lựa chọn trước đó-->
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('sub_category_id')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Nhãn hiệu</label>
-                    <div class="col-lg-6">
-                        <select class="form-control" name="brand_id">
-                            @foreach ($brands as $item)
-                                <option value="{{$item->id}}" {{old('brand_id') == $item->id || $item->id == $product->brand_id? 'selected':'' }}>
-                                    {{$item->name}} <!--Nếu xảy ra lỗi thì hiển thị lại lựa chọn trước đó-->
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('brand_id')
-                            <span class="form-text text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-form-label col-lg-3 col-sm-12">Miêu tả</label>
-                    <div class="col-lg-9 col-md-9 col-sm-12">
-                        <textarea type="text" name="description" class="form-control summernote" placeholder="Nhập miêu tả">
-                            {{ old('description') ? old('description') : $product->description }}
-                        </textarea>
+                    <h4 class="kt-section__title">2. Thông tin đăng nhập:</h4>
+                    <div class="kt-section__body">               
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Email</label>
+                            <div class="col-lg-6">
+                                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" autofocus 
+                                value="{{$user->email}}"  readonly disabled placeholder="Nhập email">
+            
+                                @error('email')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>                  
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Mật khẩu</label>
+                            <div class="col-lg-6">
+                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" autofocus 
+                                autocomplete="off" placeholder="Nhập mật khẩu">
+
+                                @error('password')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Nhập lại mật khẩu</label>
+                            <div class="col-lg-6">
+                                <input type="password" name="re-password" class="form-control @error('re-password') is-invalid @enderror" autofocus 
+                                placeholder="Nhập lại mật khẩu">
+
+                                @error('re-password')
+                                    <span class="form-text text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">Người dùng thuộc:</label>
+                            <div class="col-lg-6">
+                                <div class="kt-radio-inline">
+                                    <label class="kt-radio kt-radio--bold kt-radio--success">
+                                        <input type="radio" @if ($user->is_admin) checked @endif value="true" name="is_admin"> 
+                                            Nhân viên
+                                        <span></span>
+                                    </label>
+                                    <label class="kt-radio kt-radio--bold kt-radio--brand">
+                                        <input type="radio"  @if (!$user->is_admin) checked @endif value="false" name="is_admin">
+                                            Khách hàng
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="kt-portlet__foot">
                 <div class="kt-form__actions">
                     <button type="submit" class="btn btn-primary">Lưu lại</button>
-                    <a type="button" href="{{ route('manager.products.index') }}"
+                    <a type="button" href="{{ route('manager.users.index') }}"
                         class="btn btn-secondary">Hủy bỏ</a>
                 </div>
             </div>
