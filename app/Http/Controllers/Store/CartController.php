@@ -127,7 +127,11 @@ class CartController extends Controller
     public function order(OrderRequest $request)
     {
         $cart = \Cart::getContent();
-        $data = $request->all();
+        if($request->ship_name && $request->ship_phone) {
+            $data = $request->all();
+        } else {
+            $data = $request->except(['ship_name', 'ship_phone']);
+        }
         $data['total'] = \Cart::getTotal();
         $data['bill_code'] = Carbon::now()->format('Y-m-d\TH:i:s.uP');
         if(Auth::check()) {

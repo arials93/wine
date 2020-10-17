@@ -75,5 +75,18 @@ Route::prefix('admin')->namespace('Manager')->name('manager.')->middleware(['aut
     //Users
     Route::post('users/{id}/disable', "UserController@disable")->name("user.disable");
     Route::resource('users','UserController');
+
+    //orders
+    Route::prefix('bills')->name('bills.')->group( function() {
+        Route::get('orders', 'BillController@index')->name('index');
+        Route::get('orders/{tab}', 'BillController@index')->name('tab');
+        Route::get('orders/edit/{id}', 'BillController@edit')->name('edit');
+        Route::post('orders/delete/{id}', 'BillController@destroy')->name('delete');
+        Route::post('orders/confirm/{id}', 'BillController@confirm')->name('confirm');
+        Route::post('orders/delivery/{id}', 'BillController@delivery')->name('delivery');
+        Route::post('orders/received/{id}', 'BillController@received')->name('received');
+        Route::post('orders/cancel/{id}', 'BillController@cancel')->name('cancel');
+    });
+
     
 } );
