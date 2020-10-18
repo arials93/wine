@@ -55,4 +55,15 @@ class Bill extends Model
     {
         return $this->belongsToMany('App\Model\Product');
     }
+    /**
+     * Soft Delete to cascade for the bill detail
+     * 
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::deleting(function ($bill) {
+            $bill->bill_detais()->delete();
+        });
+    }
 }

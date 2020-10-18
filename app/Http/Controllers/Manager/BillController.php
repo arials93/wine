@@ -101,10 +101,10 @@ class BillController extends Controller
      */
     public function destroy($id)
     {
-        $orders = Bill::findOrFail($id);
-        $orders->delete();
+        // $orders = Bill::findOrFail($id);
+        // $orders->delete();
         
-        return redirect(url()->previous())->with('msg', 'Đã xóa đơn hàng thành công');
+        // return redirect(url()->previous())->with('msg', 'Đã xóa đơn hàng thành công');
     }
 
 

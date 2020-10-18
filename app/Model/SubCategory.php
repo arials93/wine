@@ -35,4 +35,15 @@ class SubCategory extends Model
     {
         return $this->hasMany('App\Model\Product');
     }
+    /**
+     * Soft Delete to cascade for the product
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::deleting(function ($sub_category) {
+            $sub_category->products()->delete();
+        });
+    }
 }

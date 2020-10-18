@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes(['verify' => true]);
-Route::namespace('Store')->name('store.')->middleware('verified_if_login')->group( function() {
+Route::namespace('Store')->name('store.')->group( function() {
     //Home
     Route::get('/', 'HomeController@index')->name('home');
 

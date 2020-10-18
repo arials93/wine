@@ -37,7 +37,7 @@
         @csrf
         <div class="kt-portlet__body">
             <div class="kt-section kt-section--first">
-                <h3 class="kt-section__title">Chi tiết đơn hàng:</h3>
+                <h3 class="kt-section__title">1. Thông tin đặt hàng:</h3>
                 <div class="kt-section__body">
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label">Khách hàng: </label>
@@ -89,14 +89,13 @@
                             <textarea type="text" readonly disabled class="form-control">{{ $data->notes  }}</textarea>
                         </div>
                     </div>
-
+                    
                     @if ($data->ship_date)
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label">Chọn ngày nhận hàng:</label>
                         <div class="col-lg-6">
                             <input type="date" name="receive_date" @if($data->receive_date) readonly disabled @endif
-                                value="{{ $data->receive_date ? $data->receive_date->format('Y-m-d') : '' }}" class="form-control"
-                                placeholder="Nhập Tên loại sản phẩm">
+                                value="{{ $data->receive_date ? $data->receive_date->format('Y-m-d') : '' }}" class="form-control">
                             @if(!$data->receive_date)
                             <span class="form-text @error('receive_date') text-danger @enderror">
                                 @error('receive_date') {{ $message }} @else {{ 'Vui lòng chọn ngày nhận hàng' }} @enderror
