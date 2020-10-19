@@ -24,35 +24,33 @@
 
     <section class="ftco-section">
 		<div class="container">
-			<div class="row">
+			<form class="row">
 				
                 
 				<div class="col-md-9">
 					<div class="row mb-4">
 						<div class="col-md-12 d-flex justify-content-between align-items-center">
-							<h4 class="product-select">Select Types of Products</h4>
-							<select class="selectpicker" multiple>
-								<option>Brandy</option>
-								<option>Gin</option>
-								<option>Rum</option>
-								<option>Tequila</option>
-								<option>Vodka</option>
-								<option>Whiskey</option>
+							<h4 class="product-select"></h4>
+							<select name="price_filter" class="selectpicker">
+								<option value="asc">Giá từ thấp đến cao</option>
+								<option value="desc">Giá từ cao xuống thấp</option>
 							</select>
 						</div>
 					</div>
 					<div class="row">
-						@foreach ($products as $item)
+						@forelse ($products as $item)
 							<div class="col-md-4 d-flex">
 								@include('store.layouts.components.product')
 							</div>
-						@endforeach					
+						@empty
+							Không tìm thấy sản phẩm nào
+						@endforelse				
                     </div>
                     <!-- Phân trang -->
 					<div class="row mt-5">
 						<div class="col text-center">
 							<div class="block-27">
-								{{ $products->links('vendor.pagination.store-paginate') }} <!--Khi tìm kiếm vẫn giữ lại query cũ khi chuyển trang-->
+								{{ $products->appends(request()->query())->links('vendor.pagination.store-paginate') }} <!--Khi tìm kiếm vẫn giữ lại query cũ khi chuyển trang-->
 							</div>
 						</div>
 					</div>
@@ -60,7 +58,7 @@
 				
 				<div class="col-md-3">
 					<div class="sidebar-box ftco-animate">
-						<form class="categories" method="GET">
+						{{-- <form class="categories" method="GET"> --}}
                             <h3>Tìm kiếm sản phẩm</h3>
                             @if (!request()->route('sub_category_id'))
                                 <select name="sub_category" class="selectpicker-manual mb-4">
@@ -87,10 +85,10 @@
                             <input name="name" value="{{ request()->name ?? '' }}" class="selectpicker-manual mb-4" placeholder="Nhập tên sản phẩm"/>
 
                             <button class="btn btn-primary w-100" type="submit">Tìm kiếm</button>
-						</form>
+						{{-- </form> --}}
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	</section>
 @endsection

@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index(Request $request, $category, $sub_category, $sub_category_id = null)
     {
-        $paginate = 6;
+        $paginate = 1;
         
         $sub_categories = SubCategory::all();
         $brands = Brand::all();
@@ -31,8 +31,6 @@ class ProductController extends Controller
             'brands' => $brands,
             'sizes' => $sizes,
         ];
-
-
         
         $search_data = [];
         if($request->sub_category) {
@@ -59,20 +57,28 @@ class ProductController extends Controller
         }
         if($request->name) {
             array_push($search_data, [
-                'name', 'LIKE', '%'.$request->name.'%'
+                'products.name', 'LIKE', '%'.$request->name.'%'
             ]);
         }
+
+        $products = null;
         if($sub_category == 0 || count($search_data) > 0)
         {
             //Hiển thị sản phẩm theo loại sản phẩm cha (xem tất cả)
             //Lấy dữ liệu trong relations của Category là products
-            $data['products'] = Category::where('id',$category)->with(['sub_categories'])->first()->products()->where('instock','>',0)->paginate($paginate);
+            $products = Category::where('id',$category)->first()->products()->where($search_data)->where('instock','>',0);
         }
         else
         {
             //Hiển thị sản phẩm theo loại sản phẩm con
-            $data['products'] = Product::where('sub_category_id',$sub_category)->where('instock','>',0)->with('sub_category')->paginate($paginate);
+            $products = Product::where('sub_category_id',$sub_category)->where('instock','>',0)->with('sub_category');
         }
+
+        if($request->price_filter) {
+            $products->orderBy('price', $request->price_filter);
+        }
+        
+        $data['products'] = $products->paginate($paginate);
         return view('store.products.products',$data);
     }
 
