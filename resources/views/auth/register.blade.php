@@ -3,7 +3,12 @@
 @section('title','Đăng ký')
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Đăng ký'],
+            ['name' => 'Đăng ký tài khoản']
+        ]       
+    ])
     
     @include('store.layouts.components.intro')
     

@@ -3,7 +3,12 @@
 @section('title','Quên mật khẩu')
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Đăng nhập'],
+            ['name' => 'Đổi mật khẩu']
+        ]       
+    ])
 
     <!--Chính sách công ty-->
     @include('store.layouts.components.intro')
