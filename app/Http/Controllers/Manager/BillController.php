@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Bill;
+use Illuminate\Support\Facades\Mail;
 
 class BillController extends Controller
 {
@@ -67,6 +68,14 @@ class BillController extends Controller
         $order->confirm = true;
         $order->save();
 
+        Mail::to($order->email)->send(new \App\Mail\OrderMail(
+            $order,
+            'Xác nhận đơn hàng',
+            'Đơn hàng của bạn đã được duyệt',
+            '<p>Đơn hàng của bạn đã được cửa hàng tiếp nhận.</p>
+             <p>Vui lòng theo dõi E-mail để biết thời gian giao hàng.</p>'
+        ));
+
         
         return redirect(url()->previous())->with('msg', 'Đã xác nhận đơn hàng thành công');
     }
@@ -77,6 +86,14 @@ class BillController extends Controller
         $order->ship_date = \Carbon\Carbon::now();
         $order->save();
 
+        Mail::to($order->email)->send(new \App\Mail\OrderMail(
+            $order,
+            'Xác nhận ngày giao hàng',
+            'Đơn hàng của bạn đang được giao',
+            '<p>Đơn hàng của bạn đã được chuyển đến bộ phận giao hàng.</p>
+             <p>Chúng tôi sẽ liên lạc với bạn hoặc người nhận khi đơn hàng được giao tới.</p>'
+        ));
+
         
         return redirect(url()->previous())->with('msg', 'Đã xác lập ngày giao đơn hàng thành công');
     }
@@ -85,11 +102,23 @@ class BillController extends Controller
     {
         $order = Bill::findOrFail($id);
         $receive_date = $request->receive_date ?? \Carbon\Carbon::now();
-        $order->receive_date = $receive_date;
-        $order->save();
+        if($receive_date >= $order->ship_date) {
+            $order->receive_date = $receive_date;
+            $order->save();
+    
+            Mail::to($order->email)->send(new \App\Mail\OrderMail(
+                $order,
+                'Xác nhận ngày nhận hàng',
+                'Đơn hàng của bạn đang được giao đến',
+                ''
+            ));
+    
+            
+            return redirect(url()->previous())->with('msg', 'Đã xác nhận ngày nhận hàng thành công');
+        }
 
-        
-        return redirect(url()->previous())->with('msg', 'Đã xác nhận ngày nhận hàng thành công');
+        return redirect(url()->previous())->with('msg-error', 'Vui lòng chọn ngày nhận hàng lớn hơn hoặc bằng ngày giao hàng');
+
     }
 
         /**

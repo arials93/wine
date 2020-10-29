@@ -10,6 +10,7 @@ use App\Model\Bill;
 use App\Model\BillDetail;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -149,6 +150,13 @@ class CartController extends Controller
             ]);
         }
         \Cart::clear();
+        Mail::to($request->email)->send(new \App\Mail\OrderMail(
+            $bill,
+            'Xác nhận đơn hàng',
+            'Bạn nhận được email này vì chúng tôi đã nhận được đơn đặt hàng của bạn',
+            '<p>Chúng tôi sẽ liên lạc với bạn trong vòng 24h để  xác nhận đơn hàng.</p>
+             <p>Vui lòng theo dõi E-mail để biết quá trình đièu phối đơn hàng.</p>'
+        ));
         return redirect()->route('store.order-complete');
     }
 

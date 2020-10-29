@@ -30,6 +30,13 @@
         {{ session('msg') }}
     </div>
 @endif
+
+
+@if (session('msg-error'))
+    <div class="alert alert-warning">
+        {{ session('msg-error') }}
+    </div>
+@endif
 <div class="kt-portlet">
     <!--begin::Form-->
 
