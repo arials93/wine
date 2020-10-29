@@ -17,7 +17,7 @@ class BlogController extends Controller
      */
     public function index($blog_category)
     {
-        $paginate = 1;
+        $paginate = 4;
         if($blog_category == 0)
         {
             //Hiển thị tất cả bài viết

@@ -20,7 +20,7 @@ class Bill extends Model
      */
     protected $fillable = [
         'bill_code', 'bill_name', 'bill_phone', 'ship_name', 'ship_phone', 'address', 'email', 'notes', 'ship_date', 'receive_date', 
-        'confirm', 'user_id', 'cause', 'is_cancel',
+        'confirm', 'user_id', 'cause', 'is_cancel', 'total',
     ];
 
         /**

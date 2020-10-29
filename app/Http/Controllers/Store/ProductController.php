@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function index(Request $request, $category, $sub_category, $sub_category_id = null)
     {
-        $paginate = 1;
+        $paginate = 6;
         
         $sub_categories = SubCategory::all();
         $brands = Brand::all();

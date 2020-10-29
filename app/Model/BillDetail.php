@@ -33,6 +33,6 @@ class BillDetail extends Model
      */
     public function product()
     {
-        return $this->hasOne('App\Model\Product', 'id', 'product_id');
+        return $this->hasOne('App\Model\Product', 'id', 'product_id')->withTrashed();
     }
 }

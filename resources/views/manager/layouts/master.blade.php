@@ -140,7 +140,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- begin:: Header Mobile -->
     <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
         <div class="kt-header-mobile__logo">
-            <a href="index&demo=demo1.html">
+            <a href="/">
                 <img alt="Logo" src="assets/media/logos/logo-light.png" />
             </a>
         </div>
@@ -168,7 +168,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <!-- begin:: Aside -->
                 <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
                     <div class="kt-aside__brand-logo">
-                        <a href="index&demo=demo1.html">
+                        <a href="/">
                             <img alt="Logo" src="assets/media/logos/logo-light.png" />
                         </a>
                     </div>

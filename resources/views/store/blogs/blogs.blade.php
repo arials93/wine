@@ -3,7 +3,12 @@
 @section('title','Bài viết')
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Bài viết'],
+            ['name' => 'Danh sách bài viết']
+        ]       
+    ])
 
     <section class="ftco-section">
         <div class="container">

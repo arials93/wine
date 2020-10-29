@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 	<style>
         .selectpicker-manual {
-            color: #999;
+            color: black;
             cursor: pointer;
             background-color: #e2e6ea;
             border-color: #dae0e5;
@@ -20,7 +20,12 @@
 @endpush
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Sản phẩm'],
+            ['name' => 'Danh sách sản phẩm']
+        ]       
+    ])
 
     <section class="ftco-section">
 		<div class="container">
@@ -71,7 +76,7 @@
                             <select name="size" class="selectpicker-manual mb-4">
                                 <option value="0">Chọn dung tích</option>
                                 @foreach ($sizes as $item)
-                                <option {{ request()->size == $item->id ? 'selected' : '' }} value="{{$item->id}}">{{$item->size}}</option>
+                                <option {{ request()->size == $item->id ? 'selected' : '' }} value="{{$item->id}}">{{$item->size}} ml</option>
                                 @endforeach
                             </select>
 

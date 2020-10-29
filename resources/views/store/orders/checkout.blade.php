@@ -3,7 +3,13 @@
 @section('title','Thanh toán')
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Giỏ hàng'],
+			['name' => 'Xem giỏ hàng'],
+			['name' => 'Thanh toán'],
+        ]       
+    ])
 
     <section class="ftco-section">
 		<form action="{{ route('store.order') }}" method="POST" class="billing-form" class="container">
@@ -23,7 +29,7 @@
 								<div class="w-100"></div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="firstname">Tên</label>
+										<label for="firstname">Họ và tên</label>
 										<input type="text" name="bill_name" class="form-control"
 										value="@if(old('bill_name')) {{old('bill_name')}} @elseif(Auth::check()) {{ Auth::user()->name }} @endif"/>
 										<span class="form-text @error('bill_name') text-danger @enderror">
@@ -58,9 +64,9 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
-												<label for="firstname">Họ tên người nhận</label>
+												<label for="firstname">Họ và tên người nhận</label>
 												<input type="text" name="ship_name" class="form-control"
-												value="@if(old('ship_name')) {{old('ship_name')}} @elseif(Auth::check()) {{ Auth::user()->name }} @endif"/>
+												value="@if(old('ship_name')) {{old('ship_name')}} @endif"/>
 												<span class="form-text @error('ship_name') text-danger @enderror">
 													@error('ship_name') {{ $message }} @else {{ 'Nhập họ tên người nhận' }} @enderror
 												</span>
@@ -70,7 +76,7 @@
 											<div class="form-group">
 												<label for="phone">Số điện thoại người nhận</label>
 												<input type="text" name="ship_phone" class="form-control" 
-												value="@if(old('ship_phone')) {{old('ship_phone')}} @elseif(Auth::check()) {{ Auth::user()->phone }} @endif">
+												value="@if(old('ship_phone')) {{old('ship_phone')}} @endif">
 												<span class="form-text @error('ship_phone') text-danger @enderror">
 													@error('ship_phone') {{ $message }} @else {{ 'Nhập số điện thoại người nhận' }} @enderror
 												</span>
@@ -112,14 +118,14 @@
 								<div class="cart-detail cart-total p-3 p-md-4">
 									<h3 class="billing-heading mb-4">Tổng thanh toán</h3>
 									<p class="d-flex">
-										<span>Phi giao hàng</span>
-										<span>0 đ</span>
+										<span>Phí giao hàng</span>
+										<a href="#">Chính sách giao hàng</a>
 									</p>
 		
 									<hr>
 									<p class="d-flex total-price">
 										<span>Tổng tiền</span>
-										<span>{{ number_format(\Cart::getTotal())}} VND</span>
+										<span>{{ number_format(\Cart::getTotal())}} đ</span>
 									</p>
 								</div>
 							</div>
@@ -130,7 +136,7 @@
 										<div class="col-md-12">
 											<div class="checkbox">
 												<label>
-													Hiện tải của hàng chỉ hỗ trợ thanh toán:
+													Hiện tại của hàng chỉ hỗ trợ thanh toán:
 													<br/>
 													- Thanh toán qua tài khoản khi nhân viên gọi xác nhận đơn hàng.
 													<br/>

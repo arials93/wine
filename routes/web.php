@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes(['verify' => true]);
-Route::namespace('Store')->name('store.')->group( function() {
+Route::namespace('Store')->name('store.')->middleware('verified_if_login')->group( function() {
     //Home
     Route::get('/', 'HomeController@index')->name('home');
 
@@ -25,6 +25,11 @@ Route::namespace('Store')->name('store.')->group( function() {
     Route::get('blog_categories/{blog_category}', 'BlogController@index')->name('blogs');
     Route::get('blog/{id}', 'BlogController@show')->name('blog');
 
+    //Users
+    Route::get('users/info','UserController@index')->name('users.info');
+    Route::put('users/edit', 'UserController@edit')->name('users.edit');
+    Route::get('users/bill/{id}','UserController@show')->name('users.bill');
+
     //Cart
     Route::get('cart', 'CartController@index')->name('cart');
     Route::get('checkout', 'CartController@checkout')->name('checkout');
@@ -32,7 +37,8 @@ Route::namespace('Store')->name('store.')->group( function() {
     Route::get('order-complete', 'CartController@order_complete')->name('order-complete');
 
     //Others
-    Route::view('contact', 'store.others.contact')->name('contact');
+    Route::get('contact', 'ContactController@index')->name('contact');
+    Route::post('contact/send', 'ContactController@send')->name('send');
     Route::view('about', 'store.others.about')->name('about');
 
     //Cart
@@ -48,7 +54,7 @@ Route::namespace('Store')->name('store.')->group( function() {
 
 });
 
-Route::prefix('admin')->namespace('Manager')->name('manager.')->middleware(['auth', 'administrator'])->group( function() {
+Route::prefix('admin')->namespace('Manager')->name('manager.')->middleware(['auth', 'verified','administrator'])->group( function() {
     //Dashboard
     Route::get('/','DashboardController@index')->name('dashboard');
     

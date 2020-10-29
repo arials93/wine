@@ -80,7 +80,7 @@
                                 <td>{{$data->abv}}</td>
                                 <td>{{$data->size->size}}ml</td>
                                 <td>{{$data->vintage}}</td>
-                                <td>{{number_format($data->price)}}VNĐ</td>
+                                <td>{{number_format($data->price)}} ₫</td>
                                 <td>{{$data->sale}}%</td>
                                 <td>{{$data->instock}}</td>
                                 <td>{{$data->brand->name}}</td>

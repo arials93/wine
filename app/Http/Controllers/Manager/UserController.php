@@ -154,8 +154,9 @@ class UserController extends Controller
             if($id == auth()->user()->id) {
                 $data['is_admin'] = auth()->user()->is_admin;
             }
+            
             $user->update($data);
-            return redirect()->route('manager.users.index')->with('message','Đã cập nhật tài khoản thành công');
+            return redirect()->route('manager.users.edit')->with('message','Đã cập nhật thành công');
         }
         //Trả về 404
         abort(404);

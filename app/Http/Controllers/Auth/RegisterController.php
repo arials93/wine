@@ -51,11 +51,29 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+        $messages = [
+            'name.required' => 'Vui lòng nhập họ và tên của bạn.',
+            'name.max' => 'Họ và tên không quá 100 ký tự',
+            'name.string' => 'Họ và tên phải là chuỗi ký tự.',
+            'email.required' => 'Vui lòng nhập email của bạn.',
+            'email.email' => 'Vui lòng nhập đúng kiểu Email.',
+            'email.unique' => 'Email này đã tồn tại',
+            'email.max' => 'Email không quá 255 ký tự',
+            'email.string' => 'Email phải là chuỗi ký tự.',
+            'password.required' => 'Vui lòng nhập mật khẩu',
+            'password.min' => 'Mật khẩu phải từ 8 ký tự trở lên.',
+            'password.string' => 'Mật khẩu phải là chuỗi ký tự.',
+            'password_confirmation.required' => 'Vui lòng nhập lại mật khẩu.',
+            'password_confirmation.confirmed' => 'Mật khẩu không trùng khớp',
+            'password_confirmation.string' => 'Nhập lại mật khẩu với chuỗi ký tự.',
+        ];
+        $rules = [
+            'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'password' => ['required', 'string', 'min:8'],
+            'password_confirmation' => ['required','string','confirmed']
+        ];
+        return Validator::make($data, $rules, $messages);
     }
 
     /**

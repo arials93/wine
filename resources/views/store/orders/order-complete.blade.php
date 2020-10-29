@@ -3,7 +3,14 @@
 @section('title','Thanh toán thành công')
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Giỏ hàng'],
+            ['name' => 'Xem giỏ hàng'],
+            ['name' => 'Thanh toán'],
+            ['name' => 'Thông báo đặt hàng']
+        ]       
+    ])
     <section class="ftco-section">
         <div class="container">
             <h3 class="text-center">Đặt hàng thành công</h3>

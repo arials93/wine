@@ -28,8 +28,8 @@
 			<div class="row">
 				<div class="col-md-6 d-flex align-items-center">
 					<p class="mb-0 phone pl-md-2">
-						<a href="#" class="mr-2"><span class="fa fa-phone mr-1"></span> +00 1234 567</a>
-						<a href="#"><span class="fa fa-paper-plane mr-1"></span> youremail@email.com</a>
+						<a href="#" class="mr-2"><span class="fa fa-phone mr-1"></span> 0924645654</a>
+						<a href="#"><span class="fa fa-paper-plane mr-1"></span> shadowpro9x@gmail.com</a>
 					</p>
 				</div>
 				<div class="col-md-6 d-flex justify-content-md-end">
@@ -49,7 +49,7 @@
 						<p class="mb-0">
 							@if (Route::has('login'))
                                 @auth
-                                    <a class="mx-2" title="Thông tin cá nhân" href="#">
+                                    <a class="mx-2" title="Thông tin cá nhân" href="{{ route('store.users.info') }}">
                                         {{Auth::user()->email}} 
                                     </a>
 
@@ -162,10 +162,7 @@
 						<ul class="list-unstyled">
 							@if (Auth::check())
 								<li>
-									<span class="fa fa-chevron-right mr-2"></span>{{Auth::user()->email}} 
-								</li>
-								<li>
-									<a title="Thông tin cá nhân" href="#">
+									<a title="Thông tin cá nhân" href="{{ route('store.users.info') }}">
 										<span class="fa fa-chevron-right mr-2"></span>Thông tin cá nhân
 									</a>
 								</li>
@@ -202,7 +199,7 @@
 					<div class="ftco-footer-widget mb-4">
 						<h2 class="ftco-heading-2">Về chúng tôi</h2>
 						<ul class="list-unstyled">
-							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Liên hệ</a></li>
+							<li><a href="{{ route('store.contact') }}"><span class="fa fa-chevron-right mr-2"></span>Liên hệ</a></li>
 							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Chính sách giao hàng</a></li>
 							<li><a href="#"><span class="fa fa-chevron-right mr-2"></span>Chính sách đổi trả</a></li>
 						</ul>
@@ -216,7 +213,7 @@
 								<li><span class="icon fa fa-map marker"></span><span class="text">78 Dương Quảng Hàm, Phường 5, Quận Gò Vấp, TPHCM</span></li>
 								<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">0924645654</span></a></li>
 								<li><a href="#"><span class="icon fa fa-paper-plane pr-4"></span><span
-											class="text">ariasl93@gmail.com</span></a></li>
+											class="text">shadowpro9x@gmail.com</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -333,7 +330,7 @@
 								<h4>${cart_item.name}</h4>
 								<p class="mb-0"><a href="#" class="price">
 									${cart_item.price.toLocaleString()} đ
-									</a><span class="quantity ml-3">Quantity: ${cart_item.quantity}</span></p>
+									</a><span class="quantity ml-3">Số lượng: ${cart_item.quantity}</span></p>
 							</div>
 						</div>
 					`);

@@ -3,7 +3,12 @@
 @section('title','Giỏ hàng')
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Giỏ hàng'],
+            ['name' => 'Xem giỏ hàng']
+        ]       
+    ])
 
     <section class="ftco-section">
         <div class="container">
@@ -16,10 +21,10 @@
                         <thead class="thead-primary">
                             <tr>
                                 <th>&nbsp;</th>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>total</th>
+                                <th>Sản phẩm</th>
+                                <th>Đơn giá</th>
+                                <th>SL</th>
+                                <th>Thành tiền</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -31,19 +36,21 @@
             <div class="row justify-content-end">
                 <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
                     <div class="cart-total mb-3">
-                        <h3>Cart Totals</h3>
+                        <h3>Tổng thanh toán</h3>
                         <p class="d-flex">
-                            <span>Delivery</span>
-                            <span>0 đ</span>
+                            <span>Phí giao hàng</span>
+                            <a href="#">Chính sách giao hàng</a>
                         </p>
                         <hr>
                         <p class="d-flex total-price">
-                            <span>Total</span>
+                            <span>Tổng tiền</span>
                             <span id="total-price">{{number_format(\Cart::getTotal())}} đ</span>
                         </p>
                     </div>
-                    <p class="text-center"><a href="{{ route('store.checkout') }}" class="btn btn-primary py-3 px-4">Proceed to
-                            Checkout</a></p>
+                    <p class="text-center">
+                        <a href="{{ route('store.checkout') }}" class="btn btn-primary py-3 px-4">
+                        Tiến hành thanh toán</a>
+                    </p>
                 </div>
             </div>
         </div>

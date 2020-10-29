@@ -25,7 +25,7 @@
         @if ($item->sale > 0)
             <p class="mb-0">
                 <span class="price price-sale"> {{ number_format($item->price) }}₫ </span>
-                <span class="price">{{ number_format($item->price - ($item->price * $item->sale / 100)) }}₫</span>
+                <span class="price">{{ number_format($item->price - ($item->price * $item->sale / 100)) }} ₫</span>
             </p>
         @else
             <p class="mb-0"><span class="price">{{ number_format($item->price) }}₫</span></p>

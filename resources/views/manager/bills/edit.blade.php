@@ -89,6 +89,12 @@
                             <textarea type="text" readonly disabled class="form-control">{{ $data->notes  }}</textarea>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label">Tổng tiền: </label>
+                        <div class="col-lg-6">
+                            <input type="text" readonly disabled value="{{ number_format($data->total) }} ₫" class="form-control font-weight-bold">
+                        </div>
+                    </div>
                     
                     @if ($data->ship_date)
                     <div class="form-group row">
@@ -114,7 +120,10 @@
                         <th>#</th>
                         <th>Hình ảnh</th>
                         <th>Tên sản phẩm</th>
-                        <th>Barcode</th>
+                        <th>Đơn giá</th>
+                        <th>Giảm giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
                         <th>Chi tiết</th>
                     </tr>
                 </thead>
@@ -122,11 +131,25 @@
                     @foreach ($data->bill_detais as $item)
                     <tr>
                         <th scope="row"> {{ $item->product->id }} </th>
-                        <td><img width="120px" src="{{ Storage::url($item->product->image) }}"/></td>
+                        <td>
+                            @if ($item->product->deleted_at)
+                                Không có
+                            @else
+                                <img width="120px" src="{{ Storage::url($item->product->image) }}"/>
+                            @endif
+                        </td>
                         <td>{{ $item->product->name }}</td>
-                        <td>{{ $item->product->barcode }}</td>
-                        <td><a class="btn btn-info" href="{{ route('manager.products.edit', $item->product->id) }}"><i class="px-0 
-                            flaticon-eye"></i></a></td>
+                        <td>{{ number_format($item->price) }} ₫</td>
+                        <td>{{ $item->sale}}%</td>
+                        <td>{{ $item->quantity }}</td>
+                        <td>{{ $item->total }}</td>
+                        <td> 
+                            @if ($item->product->deleted_at)
+                            Sản phẩm đã xóa
+                            @else <a class="btn btn-info" href="{{ route('manager.products.edit', $item->product->id) }}">
+                                <i class="px-0 flaticon-eye"></i></a>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

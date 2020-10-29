@@ -58,7 +58,6 @@ class BillController extends Controller
     public function edit($id)
     {
         $order = Bill::findOrFail($id);
-        // dd($order->bill_detais);
         return view('manager.bills.edit', ['data' => $order]);
     }
 

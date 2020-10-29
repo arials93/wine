@@ -16,7 +16,13 @@
 @endpush
 
 @section('main')
-    @include('store.layouts.components.wrap-page')
+    @include('store.layouts.components.wrap-page',[
+        'sub_page' => [
+            ['name' => 'Sản phẩm'],
+            ['name' => 'Danh sách sản phẩm'],
+            ['name' => 'Chi tiết sản phẩm']
+        ]       
+    ])
 
     <section class="ftco-section">
         <div class="container">

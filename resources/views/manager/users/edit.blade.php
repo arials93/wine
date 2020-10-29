@@ -13,6 +13,17 @@
 @endsection
 
 @section('main')
+@if (session('message'))
+    <div class="alert alert-success alert-bold fade show" role="alert">
+        <div class="alert-icon"><i class="flaticon-interface-5"></i></div>
+        <div class="alert-text">{{ session('message') }}</div>
+        <div class="alert-close">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="la la-close"></i></span>
+            </button>
+        </div>
+    </div>
+@endif
 <!--begin::Form-->
 <form class="kt-form row" method="POST" enctype="multipart/form-data" action="{{ route('manager.users.update',['user' => $user->id]) }}">
     @method('PUT')

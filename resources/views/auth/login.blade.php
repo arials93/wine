@@ -5,48 +5,7 @@
 @section('main')
     @include('store.layouts.components.wrap-page')
     
-    <section class="ftco-intro">
-		<div class="container">
-			<div class="row no-gutters">
-				<div class="col-md-4 d-flex">
-					<div class="intro d-lg-flex w-100 ftco-animate">
-						<div class="icon">
-							<span class="flaticon-support"></span>
-						</div>
-						<div class="text">
-							<h2>Online Support 24/7</h2>
-							<p>A small river named Duden flows by their place and supplies it with the necessary
-								regelialia.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 d-flex">
-					<div class="intro color-1 d-lg-flex w-100 ftco-animate">
-						<div class="icon">
-							<span class="flaticon-cashback"></span>
-						</div>
-						<div class="text">
-							<h2>Money Back Guarantee</h2>
-							<p>A small river named Duden flows by their place and supplies it with the necessary
-								regelialia.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 d-flex">
-					<div class="intro color-2 d-lg-flex w-100 ftco-animate">
-						<div class="icon">
-							<span class="flaticon-free-delivery"></span>
-						</div>
-						<div class="text">
-							<h2>Free Shipping &amp; Return</h2>
-							<p>A small river named Duden flows by their place and supplies it with the necessary
-								regelialia.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-    </section>
+    @include('store.layouts.components.intro')
     
     <section class="ftco-section bg-light">
         <div class="container">
@@ -60,8 +19,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="label" for="email">{{ __('E-Mail') }}</label>
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                        value="{{ old('email') }}" required name="email" id="email" placeholder="Email" autofocus>
+                                        <input type="text" class="form-control @error('email') is-invalid @enderror" 
+                                        value="{{ old('email') }}" name="email" id="email" placeholder="Email" autofocus>
 
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
@@ -74,7 +33,7 @@
                                     <div class="form-group">
                                         <label class="label" for="password">{{ __('Mật khẩu') }}</label>
                                         <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                        required name="password" id="password" placeholder="Mật khẩu">
+                                         name="password" id="password" placeholder="Mật khẩu">
 
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">

@@ -209,7 +209,7 @@
         </div>
         <div class="row">
             @foreach ($menu_cates as $item)
-                @if ($item->id == 2)
+                @if ($item->id == 1)
                     @foreach ($item->sub_categories as $sub_cate)
                         <div class="col-lg-2 col-md-4 ">
                             <div class="sort w-100 text-center ftco-animate">
@@ -242,8 +242,12 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-4">
-                <a href="product.html" class="btn btn-primary d-block">View All Products <span
+                @foreach ($menu_cates as $item)
+                    @if ($item->id == 2)
+                    <a href="{{ route('store.products', ['category'=>$item->id,'sub_category'=>0]) }}" class="btn btn-primary d-block">Xem tất cả rượu vang <span
                         class="fa fa-long-arrow-right"></span></a>
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>
